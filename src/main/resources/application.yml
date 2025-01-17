@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ocrWorker
+
+server:
+  port: 8081
+
+aws:
+  queue:
+    name: UPLOAD-PDF-SUCESSO
+  bucket:
+    name: invoiceentry
