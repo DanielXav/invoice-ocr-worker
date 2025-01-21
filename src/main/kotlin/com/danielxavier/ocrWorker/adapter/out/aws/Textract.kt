@@ -16,6 +16,7 @@ class Textract(
 
     override fun textract(key: String): List<String> {
         return try {
+            logger.info("Buscando e extraindo a fatura no S3 com textract.")
             val response = textractClient.detectDocumentText() {
                 it.document { doc ->
                     doc.s3Object { s3 ->

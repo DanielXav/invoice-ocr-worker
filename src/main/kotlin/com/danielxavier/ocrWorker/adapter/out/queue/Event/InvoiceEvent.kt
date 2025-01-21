@@ -1,15 +1,15 @@
-package com.danielxavier.ocrWorker.domain
+package com.danielxavier.ocrWorker.adapter.out.queue.Event
 
 import java.time.LocalDateTime
 
-data class Invoice(
+data class InvoiceEvent(
     val id: String,
     var value: Double?,
     val date: LocalDateTime,
-    val items: List<InvoiceItem>
+    val items: List<InvoiceItemEvent>
 )
 
-data class InvoiceItem(
+data class InvoiceItemEvent(
     val establishment: String,
     val value: Double
 )
