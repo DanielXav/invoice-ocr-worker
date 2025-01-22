@@ -16,7 +16,7 @@ class Textract(
 
     override fun textract(key: String): List<String> {
         return try {
-            logger.info("Buscando e extraindo a fatura no S3 com textract.")
+            logger.info("Buscando documento no bucket '$bucketName' com chave: $key")
             val response = textractClient.detectDocumentText() {
                 it.document { doc ->
                     doc.s3Object { s3 ->
@@ -25,18 +25,19 @@ class Textract(
                     }
                 }
             }
-            extractLines(response)
+            response.extractLines()
         } catch (ex: Exception) {
-            logger.error("Ocorreu um erro ao processar documento com textract. ${ex.message}")
+            logger.error("Ocorreu um erro ao processar documento com textract. ${ex.message}", ex)
             throw ex
         }
     }
 
-    fun extractLines(response: DetectDocumentTextResponse): List<String> {
-        return response.blocks()
+    fun DetectDocumentTextResponse.extractLines(): List<String> {
+        return this.blocks()
             .filter { it.blockType() == BlockType.LINE }
             .mapNotNull { it.text() }
     }
+
 
     companion object {
         private val logger = LoggerFactory.getLogger(Textract::class.java.name)

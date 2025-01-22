@@ -12,22 +12,22 @@ import org.springframework.stereotype.Component
 
 @Component
 class InvoiceEntryListener(
-    private val processInvoiceUseCase: ProcessInvoiceUseCase
+    private val processInvoiceUseCase: ProcessInvoiceUseCase,
 ) {
 
-    @SqsListener("\${aws.queue.name}")
+    @SqsListener("\${aws.queue.listener.name}")
     fun invoiceEntry(
         invoiceEntryEvent: InvoiceEntryEvent,
         ack: Acknowledgement
     ) =  CoroutineScope(Dispatchers.IO).launch {
         runCatching {
-            logger.info("Iniciando consumo da fila sqs")
+            logger.info("Iniciando consumo da fila SQS: ${invoiceEntryEvent.key}")
             processInvoiceUseCase.processInvoice(invoiceEntryEvent.key)
         }.onSuccess {
             ack.acknowledge()
-            logger.info("Processo finalizado com sucesso.")
+            logger.info("Mensagem processada com sucesso. Key: ${invoiceEntryEvent.key}")
         }.onFailure {
-            logger.error("Processo falhou")
+            logger.error("Erro ao processar mensagem: ${it.message}", it)
         }
     }
 

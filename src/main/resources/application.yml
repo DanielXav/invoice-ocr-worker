@@ -7,6 +7,9 @@ server:
 
 aws:
   queue:
-    name: UPLOAD-PDF-SUCESSO
+    listener:
+      name: UPLOAD-PDF-SUCESSO
+    producer:
+      name: INVOICE-JSON
   bucket:
     name: invoiceentry

@@ -2,6 +2,7 @@ package com.danielxavier.ocrWorker.application.usecase
 
 import com.danielxavier.ocrWorker.application.ports.out.ProducerPort
 import com.danielxavier.ocrWorker.application.ports.out.TextractPort
+import com.danielxavier.ocrWorker.application.usecase.Mapper.InvoiceMapper.toInvoiceEvent
 import com.danielxavier.ocrWorker.domain.Invoice
 import com.danielxavier.ocrWorker.domain.InvoiceItem
 import org.slf4j.LoggerFactory
@@ -20,9 +21,7 @@ class ProcessInvoiceUseCase(
         logger.info("Iniciando o processo de extração dos itens da fatura.")
 
         val file = textractPort.textract(key)
-
         val invoiceValue: Double? = findInvoiceValue(file)
-
         val items = extractInvoiceItem(file).also {
             logger.info("Itens da fatura extraidos com sucesso.")
         }
@@ -33,7 +32,7 @@ class ProcessInvoiceUseCase(
                 value = invoiceValue,
                 date = LocalDateTime.now(),
                 items = items
-            )
+            ).toInvoiceEvent()
         ).also {
             logger.info("Mensagem enviada com sucesso para a fila.")
         }
