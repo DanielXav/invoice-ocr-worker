@@ -4,6 +4,6 @@ import com.danielxavier.ocrWorker.adapter.out.queue.Event.InvoiceEvent
 
 interface ProducerPort {
 
-    fun sendMessage(message: InvoiceEvent)
+    suspend fun sendMessage(message: InvoiceEvent)
 
 }

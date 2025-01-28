@@ -13,7 +13,7 @@ class InvoiceProducer(
     @Value("\${aws.queue.producer.name}") val queueName: String
 ): ProducerPort {
 
-    override fun sendMessage(message: InvoiceEvent) {
+    override suspend fun sendMessage(message: InvoiceEvent) {
          try {
              sqsTemplate.send(queueName, message)
          } catch (ex: Exception) {

@@ -30,6 +30,7 @@ dependencies {
 	implementation("software.amazon.awssdk:textract")
 	implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+	testImplementation("io.mockk:mockk:1.13.5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

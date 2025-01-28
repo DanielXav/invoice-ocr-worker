@@ -16,7 +16,7 @@ class ProcessInvoiceUseCase(
     private val producerPort: ProducerPort
 ) {
 
-    fun processInvoice(key: String) {
+    suspend fun processInvoice(key: String) {
 
         logger.info("Iniciando o processo de extração dos itens da fatura.")
 

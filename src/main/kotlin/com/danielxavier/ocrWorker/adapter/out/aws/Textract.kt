@@ -14,7 +14,7 @@ class Textract(
     @Value("\${aws.bucket.name}") private val bucketName: String
 ): TextractPort {
 
-    override fun textract(key: String): List<String> {
+    override suspend fun textract(key: String): List<String> {
         return try {
             logger.info("Buscando documento no bucket '$bucketName' com chave: $key")
             val response = textractClient.detectDocumentText() {

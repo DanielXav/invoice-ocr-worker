@@ -19,7 +19,7 @@ class InvoiceEntryListener(
     fun invoiceEntry(
         invoiceEntryEvent: InvoiceEntryEvent,
         ack: Acknowledgement
-    ) =  CoroutineScope(Dispatchers.IO).launch {
+    ) = CoroutineScope(Dispatchers.IO).launch {
         runCatching {
             logger.info("Iniciando consumo da fila SQS: ${invoiceEntryEvent.key}")
             processInvoiceUseCase.processInvoice(invoiceEntryEvent.key)
